@@ -1,0 +1,21 @@
+pipeline:
+type: docker
+name: default
+
+- name: docker build and publish
+  pull: always
+  image: plugins/docker:linux-amd64
+  settings:
+    dockerfile: Dockerfile
+    repo: kirg0/devopshq
+    tags: latest
+    username:
+      from_secret: ${DOCKER_USERNAME}
+    password:
+      from_secret: ${DOCKER_PASSWORD}
+  when:
+    branch:
+    - develop
+    - master
+    event:
+      - pull_request
